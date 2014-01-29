@@ -1,44 +1,53 @@
 #!/usr/bin/env python
-# ---------------------------------------------------------------------------------------------
-# Copyright (c) 2012-2013, Ryan Galloway (ryan@rsgalloway.com)
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-# - Redistributions of source code must retain the above copyright notice, this
-# list of conditions and the following disclaimer.
-#
-# - Redistributions in binary form must reproduce the above copyright notice,
-# this list of conditions and the following disclaimer in the documentation
-# and/or other materials provided with the distribution.
-#
-# - Neither the name of the software nor the names of its contributors
-# may be used to endorse or promote products derived from this software
-# without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-# ---------------------------------------------------------------------------------------------
-# docs and latest version available for download at
-# http://github.com/rsgalloway/dropcam
-# ---------------------------------------------------------------------------------------------
+# -*- coding: utf-8 -*-
 
-from distutils.core import setup
+"""
+Setup for the Dropcam Python Module.
+
+Source:: https://github.com/ampledata/dropcam
+"""
+
+__title__ = 'dropcam'
+__version__ = '1.0.0'
+__build__ = '0x010000'
+__author__ = 'Greg Albrecht <gba@onbeep.com>'
+__copyright__ = 'Copyright 2014 OnBeep, Inc.'
+__license__ = 'Apache License, Version 2.0'
+
+
+import os
+import sys
+
+
+try:
+    from setuptools import setup
+except ImportError:
+    # pylint: disable=F0401,E0611
+    from distutils.core import setup
+
+
+def publish():
+    """Function for publishing package to pypi."""
+    if sys.argv[-1] == 'publish':
+        os.system('python setup.py sdist upload')
+        sys.exit()
+
+
+publish()
+
+
 setup(
-    name='dropcam',
-    version='0.1.1',
-    description='Unofficial Dropcam Python API.',
-    author='Ryan Galloway',
-    author_email='ryan@rsgalloway.com',
-    url='http://github.com/rsgalloway/dropcam',
-    py_modules=['dropcam'],
+    name=__title__,
+    version=__version__,
+    description='Dropcam Python Module.',
+    long_description=open('README.rst').read(),
+    author='Greg Albrecht',
+    author_email='gba@onbeep.com',
+    license=open('LICENSE').read(),
+    url='https://github.com/ampledata/dropcam',
+    setup_requires=['nose'],
+    tests_require=['coverage', 'nose'],
+    install_requires=['requests', 'simplejson'],
+    package_dir={'dropcam': 'dropcam'},
+    zip_safe=False
 )
