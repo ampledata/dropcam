@@ -60,7 +60,7 @@ class ConnectionError(IOError):
     requests/responses
     """
 
-def _request(path, params, cookie=None):
+def _request(path, params, cookie=None, headers=None):
     """
     Dropcam http request function.
     """
@@ -68,6 +68,9 @@ def _request(path, params, cookie=None):
     request = urllib2.Request(request_url)
     if cookie:
         request.add_header('cookie', cookie)
+    if headers:
+        for hk,hv in headers.iteritems():
+            request.add_header(hk, hv)
     try:
         return urllib2.urlopen(request)
     except urllib2.HTTPError:
@@ -203,7 +206,7 @@ class Camera(object):
         if end is None:
             end = int(time.time())
         events = []
-        params = dict(uuid=self.uuid, start_time=start, end_time=end, human=True)
+        params = dict(uuid=self.uuid, start_time=start, end_time=end)
         response = _request(Dropcam.EVENT_PATH, params, self.dropcam.cookie)
         items = json.load(response)
         for item in items:
